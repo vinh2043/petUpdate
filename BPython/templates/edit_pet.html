@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Sửa thú cưng</title>
+</head>
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% endwith %}
+
+  <h1>Chỉnh sửa thú cưng</h1>
+  {% if session.role == 1 %}  <!-- Chỉ admin mới được vào form này -->
+  <form method="POST">
+    <input type="text" name="name" value="{{ pet.name }}" required>
+    <input type="text" name="type" value="{{ pet.type }}" required>
+    <input type="number" name="age" value="{{ pet.age }}" required>
+    <button type="submit">Cập nhật</button>
+  </form>
+  {% else %}
+    <p>Bạn không có quyền truy cập trang này.</p>
+  {% endif %}
+
+  <a href="{{ url_for('pets') }}">⬅ Quay lại danh sách</a>
+</body>
+</html>
